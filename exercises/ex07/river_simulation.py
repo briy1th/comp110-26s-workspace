@@ -1,12 +1,14 @@
-"""EX07 - River Simulation"""
+"""River_simulation.py."""
 
 __author__ = "730926082"
+
+# import the river class
 from ex07.river import River
 
-# contruct a river named my river with 10 fish and 2 bears
+
+# Contruct a river named my_river with 10 fish and 2 Bears.
+
 my_river: River = River(10, 2)
 
-
+my_river.one_river_day
 print(my_river)
-# test out the functionality of one_river_week by calling it
-my_river.one_river_week()

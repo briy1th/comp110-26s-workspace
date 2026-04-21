@@ -1,18 +1,21 @@
-"""File to define River class."""
+"""River class and more."""
 
 from __future__ import annotations
-from ex07.fish import Fish
-from ex07.bear import Bear
+from exercises.ex07.fish import Fish
+from exercises.ex07.bear import Bear
+
+__author__: str = "730926082"
 
 
 class River:
+    """The river has many characteristics."""
 
     day: int
     fish: list[Fish]
     bears: list[Bear]
 
     def __init__(self, num_fish: int, num_bears: int):
-        """New River with num_fish Fish and num_bears Bears"""
+        """Constuctor for river class!."""
         self.day: int = 0
         self.fish: list[Fish] = []
         self.bears: list[Bear] = []
@@ -23,81 +26,81 @@ class River:
             self.bears.append(Bear())
 
     def check_ages(self):
-        """docstring"""
-        i: int = 0
-        # As animal’s age, they should be removed from the River. Modify the check_ages
-        while len(self.fish) > 0 and self.fish[0].age > 3:
-            self.fish.pop(0)
-        while len(self.bears) > 0 and self.bears[0].age > 5:
-            self.bears.pop(0)
-        i += 1
-        return None
+        """As animal's age, remove them from river."""
+        new_fish: list[Fish] = []
+        for fish in self.fish:
+            if fish.age <= 3:
+                new_fish.append(fish)
+        self.fish = new_fish
+
+        new_bears: list[Bear] = []
+        for bears in self.bears:
+            if bears.age <= 5:
+                new_bears.append(bears)
+        self.bears = new_bears
 
     def bears_eating(self):
-        """docstring"""
-        # Modify the bears_eating method, so that, for each Bear, if there are at least
-        i: int = 0
+        """How many fish the bears eat."""
         for bear in self.bears:
             if len(self.fish) >= 5:
-                bear.eat(3)
                 self.remove_fish(3)
-        i += 1
+                bear.eat(3)
         return None
 
     def check_hunger(self):
-        """docstring"""
-        # If hunger_score < 0, then remove the Bear from the river.
-        i: int = 0
-        while len(self.bears) > 0 and self.bears[0].hunger_score < 0:
-            self.bears.pop(0)
-        i += 1
-        return None
+        """Elminate bears which starved to death."""
+        new_bears: list[Bear] = []
+        for bear in self.bears:
+            if bear.hunger_score >= 0:
+                new_bears.append(bear)
+        self.bears = new_bears
 
     def repopulate_fish(self):
-        """docstring"""
-        i: int = 0
-        # for n fish, there will be int(n/2) * 4 new fish added to fish
-        while len(self.fish) >= 2 and self.fish[0].age > 1 and self.fish[1].age > 1:
+        """How many births per pair."""
+        births = (len(self.fish) // 2) * 4
+        for _ in range(births):
             self.fish.append(Fish())
-        i += 1
-
-        return None
 
     def repopulate_bears(self):
-        """docstring"""
-        # To generalize, for n bears, there will be int(n/2) new Bears added to bears.
-        i: int = 0
-        while len(self.bears) >= 2 and self.bears[0].age > 3 and self.bears[1].age > 3:
+        """How many birhts from bears per couple."""
+        births = len(self.bears) // 2
+        for _ in range(births):
             self.bears.append(Bear())
-        i += 1
-        return None
 
     def __str__(self) -> str:
-        """docstring"""
+        """View the status of your river in terms of its Fish and Bear population."""
         return (
-            "~~~ Day {self.day}: ~~~\n"
-            " Fish population: {len(self.fish)}"
-            "\n Bear population: "
-            "{len(self.bears)}"
+            f"~~~ Day {self.day}: ~~~ \n"
+            f"Fish Population: {len(self.fish)} \n"
+            f"Bear Population: {len(self.bears)} \n"
         )
 
     def __add__(self, other_riv: River) -> River:
-        """docstring"""
-        # modify the __add__method so that it sums the fish and sums the bears in the
-        new_fish: int = len(self.fish) + len(other_riv.fish)
-        new_bears: int = len(self.bears) + len(other_riv.bears)
-        new_river: River = River(new_fish, new_bears)
+        """Add input rivers together."""
+        new_river = River(
+            num_fish=len(self.fish) + len(other_riv.fish),
+            num_bears=len(self.bears) + len(other_riv.bears),
+        )
+        new_river.fish = self.fish + other_riv.fish
+        new_river.bears = self.bears + other_riv.bears
 
+        new_river.day = 0
         return new_river
 
     def __mul__(self, factor: int) -> River:
-        """docstring"""
-        new_river: River = River(factor, factor)
+        """Factor by river input."""
+        new_river = River(
+            num_fish=len(self.fish) * factor, num_bears=len(self.bears) * factor
+        )
+        new_river.fish = self.fish * factor
+        new_river.bears = self.bears * factor
+
+        new_river.day = 0
 
         return new_river
 
     def one_river_day(self):
-        """Simulate one day of life in the river"""
+        """Simulate one day of life in the river."""
         # Increase day by 1
         self.day += 1
         # Simulate one day for all Bears
@@ -120,16 +123,11 @@ class River:
         print(self)
 
     def one_river_week(self):
-        """docstring"""
-        # It should simply call one_river_day() seven times
+        """Call one_river_day() seven times."""
         for _ in range(7):
             self.one_river_day()
 
-    def remove_fish(self, amount: int):
-        """docstring"""
-        # Within the Rive
-        i: int = 0
-        while len(self.fish) > 0 and i < amount:
+    def remove_fish(self, amount: int) -> None:
+        """Remove fish from river."""
+        for _ in range(amount):
             self.fish.pop(0)
-        i += 1
-        return None

@@ -1,0 +1,20 @@
+#Intro to Jupyter Notebooks! # Heading 1
+# Learning Markdown
+
+# This is my first markdown cell
+
+from lessons.data_analysis.utils import walter_wally.csv
+
+# --------------------------
+# This is a python cell!
+
+course: str = "Comp110"
+print(f"{course} is my favorite class!")
+
+# evaluates and prints the lass list of the cell
+
+1 + 2
+
+
+
+print(course)
